@@ -1,24 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from 'react'
+
+import { store, alignDataCityWise } from './redux/store';
+import {AirQualityHomePage} from './components/AirQualityHomePage';
+
+import { WEBSOCKET_URL } from './constants/AirQualityConstant';
 
 function App() {
+
+  useEffect(() => {
+    const ws = new WebSocket(WEBSOCKET_URL);
+    ws.onopen = () => {
+        console.log('web socket is open')
+    };
+    ws.onmessage = lastMessage => {
+        try {
+            if (lastMessage !== null) {
+                alignDataCityWise(JSON.parse(lastMessage.data), store.getState());
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    };
+    return () => ws.close();
+}, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AirQualityHomePage></AirQualityHomePage>
   );
 }
 
