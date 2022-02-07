@@ -24,7 +24,6 @@ const getUpdatedAtInfo = (date1, date2) => {
 const getLatestRowForCities = airQualityData => {
     const latestRowForCities = [];
     airQualityData.forEach((valueList, key) => {
-        // eslint-disable-next-line arrow-body-style
         const latestRow = valueList.reduce((city1, city2) => {
             return new Date(city1.dateTime) > new Date(city2.dateTime) ? city1 : city2;
         });

@@ -24,7 +24,6 @@ module.exports = {
         ],
         'array-callback-return': 'error',
         'array-element-newline': 'off',
-        'arrow-body-style': 'error',
         'arrow-parens': [
             'error',
             'as-needed'
@@ -91,7 +90,6 @@ module.exports = {
         'grouped-accessor-pairs': 'error',
         'guard-for-in': 'error',
         'id-denylist': 'error',
-        'id-length': 'error',
         'id-match': 'error',
         'implicit-arrow-linebreak': [
             'error',
@@ -119,7 +117,6 @@ module.exports = {
         'max-depth': 'error',
         'max-len': 'off',
         'max-nested-callbacks': 'error',
-        'max-params': 'error',
         'max-statements': 'error',
         'max-statements-per-line': 'error',
         'multiline-comment-style': [
@@ -160,7 +157,6 @@ module.exports = {
         'no-lonely-if': 'error',
         'no-loop-func': 'error',
         'no-loss-of-precision': 'error',
-        'no-mixed-operators': 'error',
         'no-multi-assign': 'error',
         'no-multi-spaces': 'error',
         'no-multi-str': 'error',

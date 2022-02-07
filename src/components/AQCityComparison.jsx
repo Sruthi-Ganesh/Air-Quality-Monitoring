@@ -18,7 +18,7 @@ import {
 } from 'd3-shape';
 import { scalePoint } from 'd3-scale';
 
-const PREFIX = 'Demo';
+const PREFIX = 'AirQuality';
 
 const classes = {
   'title': `${PREFIX}-title`,
@@ -114,36 +114,6 @@ export const AQCityComparison = props => {
           argumentField="dateTime"
           seriesComponent={Line}
         />)}
-        {/* <LineSeries
-            name=""
-            valueField="hydro"
-            argumentField="country"
-            seriesComponent={Line}
-          />
-          <LineSeries
-            name="Oil"
-            valueField="oil"
-            argumentField="country"
-            seriesComponent={Line}
-          />
-          <LineSeries
-            name="Natural gas"
-            valueField="gas"
-            argumentField="country"
-            seriesComponent={Line}
-          />
-          <LineSeries
-            name="Coal"
-            valueField="coal"
-            argumentField="country"
-            seriesComponent={Line}
-          />
-          <LineSeries
-            name="Nuclear"
-            valueField="nuclear"
-            argumentField="country"
-            seriesComponent={Line}
-          /> */}
         <Legend position="bottom" rootComponent={Root} itemComponent={Item} labelComponent={Label} />
         <Title
           text="Comparison of Air Quality Index in Multiple Cities"

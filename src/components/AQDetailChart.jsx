@@ -12,7 +12,7 @@ import {
 import { styled } from '@mui/material/styles';
 import { Animation } from '@devexpress/dx-react-chart';
 
-const PREFIX = 'Demo';
+const PREFIX = 'AirQuality';
 
 const classes = {
   'chart': `${PREFIX}-chart`

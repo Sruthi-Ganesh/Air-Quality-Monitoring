@@ -1,8 +1,3 @@
-/* eslint-disable id-length */
-/* eslint-disable no-mixed-operators */
-/* eslint-disable arrow-body-style */
-/* eslint-disable no-unused-vars */
-/* eslint-disable max-params */
 import PropTypes from 'prop-types';
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
@@ -17,7 +12,11 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import { visuallyHidden } from '@mui/utils';
-import { AQTABLEHEADER } from '../constants/AirQualityConstant';
+import { AQTABLEHEADER, DEFAULT_ROWS_PER_AQ_TABLE, DEFAULT_COLUMN_TO_SORT, DEFAULT_ROW_PAGE_OPTIONS, AIR_QUALITY_VALUES } from '../constants/AirQualityConstant';
+
+const findColourByAQI = key => {
+    return AIR_QUALITY_VALUES.find(value => value.key === key).color;
+}
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -32,20 +31,32 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     }
 }));
 
-const AnchorTableCell = styled(TableCell)(({ theme }) => ({
-        'fontSize': 14,
-        'color': 'blue',
-        'textDecoration': 'underline',
-        'cursor': 'pointer'
-}));
-
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
-    '&:nth-of-type(odd)': {
-        'backgroundColor': theme.palette.action.hover
+    'cursor': 'pointer',
+    '&.MuiTableRow-hover:hover': {
+        'backgroundColor': theme.palette.grey[300]
     },
     // hide last border
     '&:last-child td, &:last-child th': {
         'border': 0
+    },
+    '&.aq-styled-row-severe': {
+        'backgroundColor': findColourByAQI('severe')
+    },
+    '&.aq-styled-row-very-poor': {
+        'backgroundColor': findColourByAQI('very-poor')
+    },
+    '&.aq-styled-row-poor': {
+        'backgroundColor': findColourByAQI('poor')
+    },
+    '&.aq-styled-row-moderate': {
+        'backgroundColor': findColourByAQI('moderate')
+    },
+    '&.aq-styled-row-satisfactory': {
+        'backgroundColor': findColourByAQI('satisfactory')
+    },
+    '&.aq-styled-row-good': {
+        'backgroundColor': findColourByAQI('good')
     }
 }));
 
@@ -79,6 +90,12 @@ const stableSort = (array, comparator) => {
         return a[1] - b[1];
     });
     return stabilizedThis.map(el => el[0]);
+}
+
+const getClassNameForRow = aqi => {
+    const aqiInteger = Math.ceil(aqi);
+    const valueFiltered = AIR_QUALITY_VALUES.find(value => value.start <= aqiInteger && value.end >= aqiInteger)
+    return valueFiltered.key;
 }
 
 const EnhancedTableHead = param => {
@@ -120,9 +137,9 @@ EnhancedTableHead.propTypes = {
 
 export const AQTable = ({ latestAirQualityData, onSelectCity }) => {
     const [order, setOrder] = React.useState('desc');
-    const [orderBy, setOrderBy] = React.useState('aqi');
+    const [orderBy, setOrderBy] = React.useState(DEFAULT_COLUMN_TO_SORT);
     const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(25);
+    const [rowsPerPage, setRowsPerPage] = React.useState(DEFAULT_ROWS_PER_AQ_TABLE);
     const rows = latestAirQualityData;
 
     const handleRequestSort = (event, property) => {
@@ -164,15 +181,15 @@ export const AQTable = ({ latestAirQualityData, onSelectCity }) => {
                             .map((row, index) => {
                                 const labelId = `enhanced-table-${index}`;
                                 return <StyledTableRow
+                                    className={`aq-styled-row-${getClassNameForRow(row.aqi)}`}
+                                    onClick={() => onSelectCity(row)}
                                     hover
                                     key={row.key}
                                     tabIndex={-1}
                                     sx={{ '&:last-child td, &:last-child th': { 'border': 0 } }}
                                 >
-                                    <StyledTableCell component="th" scope="row" padding="none" id={labelId}>
-                                        <AnchorTableCell onClick={() => onSelectCity(row)} component="a" scope="row" padding="none" id={labelId}>
-                                            {row.key}
-                                        </AnchorTableCell>
+                                    <StyledTableCell scope="row" padding="none" id={labelId}>
+                                        {row.key}
                                     </StyledTableCell>
                                     <StyledTableCell align="right">{row.aqi}</StyledTableCell>
                                     <StyledTableCell align="right">{row.updatedAt}</StyledTableCell>
@@ -191,7 +208,7 @@ export const AQTable = ({ latestAirQualityData, onSelectCity }) => {
                 </Table>
             </TableContainer>
             <TablePagination
-                rowsPerPageOptions={[5, 10, 25]}
+                rowsPerPageOptions={DEFAULT_ROW_PAGE_OPTIONS}
                 component="div"
                 count={rows.length}
                 rowsPerPage={rowsPerPage}
