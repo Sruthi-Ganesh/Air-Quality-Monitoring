@@ -81,9 +81,9 @@ export const AirQualityHomePage = () => {
                     'borderColor': 'divider'
                 }}>
                     <TabList onChange={handleChange} aria-label="Air Quality Index">
-                        <Tab label="City wise comparison" value="1" />
+                        <Tab label="City Air Quality Indexes Table" value="1" />
                         <Tab label="Detailed information per city" value="2" />
-                        <Tab label="Compare cities" value="3" />
+                        <Tab label="Comparison of various cities" value="3" />
                     </TabList>
                 </Box>
                 <TabPanel value="1">
