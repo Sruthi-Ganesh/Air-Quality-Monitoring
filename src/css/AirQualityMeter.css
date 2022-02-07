@@ -1,0 +1,9 @@
+.air-quality-home-page-speedometer {
+    margin-top: 32px;
+    text-align: center;
+}
+
+.air-quality-home-page-speedometer .speedometer {    
+    overflow: visible;
+}
+
