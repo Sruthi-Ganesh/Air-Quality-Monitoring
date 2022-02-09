@@ -1,6 +1,6 @@
 export const MAXIMUM_AIR_QUALITY_VALUE = 500;
 export const MINIMUM_AIR_QUALITY_VALUE = 0;
-export const WEBSOCKET_URL = 'ws://city-ws.herokuapp.com/';
+export const WEBSOCKET_URL = 'wss://city-ws.herokuapp.com/';
 export const AQTABLEHEADER = [
   {
     'id': 'key',
